@@ -4,12 +4,6 @@
 
 uint16_t point1 = 0; // 用于记录接收到的数据长度
 
-// UART3 接收缓冲区（ESP01S）
-uint16_t uart3_rx_index = 0;
-uint32_t uart3_rx_ticks = 0;
-uint8_t uart3_rx_buffer[256];
-uint8_t uart3_rx_byte;
-
 float longitude;     // 用于存储经度
 
 float latitude;      // 用于存储纬度
@@ -162,16 +156,6 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 
         HAL_UART_Receive_IT(&huart2, &uart_A_RX_Buff, 1);
 
-    }
-
-    // USART3 接收（ESP01S）
-    else if (huart->Instance == USART3)
-    {
-        uart3_rx_ticks = uwTick;
-        uart3_rx_buffer[uart3_rx_index++] = uart3_rx_byte;
-        if (uart3_rx_index >= sizeof(uart3_rx_buffer) - 1)
-            uart3_rx_index = 0;
-        HAL_UART_Receive_IT(&huart3, &uart3_rx_byte, 1);
     }
 
 }

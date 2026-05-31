@@ -200,23 +200,23 @@ int main(void)
 
   /* USER CODE BEGIN 2 */
 
-	HAL_ADC_Start_DMA(&hadc1, (uint32_t *)&dma_buff[0], 30); // ���� ADC1 �� DMA ģʽ�����ɼ����� 30 �����ݴ洢�� dma_buff ������
+	HAL_ADC_Start_DMA(&hadc1, (uint32_t *)&dma_buff[0], 30); // 启动 ADC1 的 DMA 模式，将采集到的 30 个数据存储到 dma_buff 数组中
 
 	
 
-	esp_init(); // ESP8266 ��ʼ��
+	esp_init(); // ESP8266 初始化
 
-	DHT11_Init(); // DHT11 ��ʪ�ȴ�������ʼ��
+	DHT11_Init(); // DHT11 温湿度传感器初始化
 
-	MPU_Init(); // MPU6050 ��̬��������ʼ��
+	MPU_Init(); // MPU6050 姿态传感器初始化
 
-	mpu_dmp_init(); // DMP�������˶�����������ʼ��
+	mpu_dmp_init(); // DMP（数字运动处理器）初始化
 
-	MAX30102_Init(); // MAX30102 ����Ѫ����������ʼ��
+	MAX30102_Init(); // MAX30102 心率血氧传感器初始化
 
-//	atgm336h_init(); //ATGM336H��λ��������ʼ��
+//	atgm336h_init(); //ATGM336H定位传感器初始化
 
-	scheduler_init(); // �����������ʼ��
+	scheduler_init(); // 任务调度器初始化
 
 	
 
@@ -238,7 +238,7 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 
-    scheduler_run(); //����������
+    scheduler_run(); //启动调度器
 
   }
 

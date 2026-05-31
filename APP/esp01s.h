@@ -4,25 +4,21 @@
 #include "bsp_system.h"
 
 // Wi-Fi 连接参数
-#define WIFI_SSID               "admin"        // Wi-Fi 网络名称
-#define WIFI_PWD                "123456789"    // Wi-Fi 密码
+#define WIFI_SSID               "admin"      // Wi-Fi 网络名称
+#define WIFI_PWD                "123456789" // Wi-Fi 密码
 
-// TCP 服务器配置（PC 上 terminal-system 后端监听 3001）
-#define TCP_SERVER_IP           "192.168.0.101"
-#define TCP_SERVER_PORT         "3001"
+// 华为云物联网平台 MQTT 配置参数
+#define HUAWEI_MQTT_ADDRESS     "678d30610a.st1.iotda-device.cn-north-4.myhuaweicloud.com" // MQTT 服务器地址
+#define HUAWEI_MQTT_ClientID    "685ca22532771f177b45e75f_smart_helmet_1_0_0_2025062611"     // MQTT 客户端 ID
+#define HUAWEI_MQTT_USERNAME    "685ca22532771f177b45e75f_smart_helmet_1"                   // MQTT 用户名
+#define HUAWEI_MQTT_PASSWORD    "819d3b6a935d4747f6370b1d240aba4ab2d73c99a8babc4964f770ae63a8bee1" // MQTT 密码
+#define HUAWEI_MQTT_PORT        "1883"                                                          // MQTT 端口号
+#define HUAWEI_MQTT_PUBLISH_TOPIC "$oc/devices/685ca22532771f177b45e75f_smart_helmet_1/sys/properties/report" // 上报主题
 
-// 固定经纬度（黑龙江科技大学）
-#define FIXED_LONGITUDE         126.62f
-#define FIXED_LATITUDE          45.78f
-
-// ESP8266 模块初始化（连 WiFi + TCP）
+// ESP8266 模块初始化函数
 void esp_init(void);
 
-// 数据上报（TCP 发 JSON）
+// ESP8266 数据上报函数
 void esp_report1(void);
 void esp_report2(void);
-
-// 处理服务器下发命令（控制 PA5/PA6）
-void esp_process_cmd(void);
-
 #endif
