@@ -1,0 +1,44 @@
+# ---- Keil MDK-ARM build output ----
+# 编译中间产物与输出，均可由工程重新生成
+*.o
+*.d
+*.crf
+*.lst
+*.dep
+*.lnp
+*.htm
+*.map
+*.axf
+*.hex
+*.bin
+*.scr
+*.iex
+*.sct.bak
+
+# Keil 个人界面/调试配置（每台机器各自生成）
+*.uvguix.*
+*.dbgconf
+JLinkLog.txt
+MDK-ARM/DebugConfig/
+
+# 编译输出目录（按需保留 .sct，见下方例外）
+MDK-ARM/smart_helmet/*.o
+MDK-ARM/smart_helmet/*.d
+MDK-ARM/smart_helmet/*.crf
+
+# ---- 编辑器 / 工具本地配置 ----
+.claude/
+*.local.json
+
+# ---- 排查凭据时的临时日志 ----
+gcm-diagnose.log
+
+# ---- 系统垃圾文件 ----
+Thumbs.db
+.DS_Store
+
+# ---- 保留必要的工程文件（覆盖上面的通配规则）----
+!MDK-ARM/smart_helmet.uvprojx
+!MDK-ARM/smart_helmet.uvoptx
+!MDK-ARM/smart_helmet/smart_helmet.sct
+!MDK-ARM/startup_stm32f103xb.s
