@@ -36,7 +36,7 @@ void esp_init(void)
 void esp_report1(void)
 {
     // 上报传感器数据（血氧、浓度、心率、跌倒标志）
-	my_printf(&huart3, "AT+MQTTPUB=0,\"$oc/devices/%s/sys/properties/report\",\"{\\\"services\\\":[{\\\"service_id\\\":\\\"BasicData\\\"\\,\\\"properties\\\":{\\\"spO2\\\":%d\\,\\\"density\\\":%.2f\\,\\\"heart_rate\\\":%d\\,\\\"fall_flag\\\":%d\\,\\\"collision_flag\\\":%d}}]}\",0,0\r\n", HUAWEI_MQTT_USERNAME, dis_spo2, ppm, dis_hr, fall_flag, collision_flag);
+	my_printf(&huart3, "AT+MQTTPUB=0,\"smart_helmet/report\",\"{\\\"services\\\":[{\\\"service_id\\\":\\\"BasicData\\\"\\,\\\"properties\\\":{\\\"spO2\\\":%d\\,\\\"density\\\":%.2f\\,\\\"heart_rate\\\":%d\\,\\\"fall_flag\\\":%d\\,\\\"collision_flag\\\":%d}}]}\",0,0\r\n", dis_spo2, ppm, dis_hr, fall_flag, collision_flag);
 //	HAL_Delay(50);
 }
 
@@ -46,6 +46,6 @@ void esp_report1(void)
 void esp_report2(void)
 {
 	// 上报环境数据（温度、湿度、固定经纬度）
-	my_printf(&huart3, "AT+MQTTPUB=0,\"$oc/devices/%s/sys/properties/report\",\"{\\\"services\\\":[{\\\"service_id\\\":\\\"BasicData\\\"\\,\\\"properties\\\":{\\\"longitude\\\":%.2f\\,\\\"latitude\\\":%.2f\\,\\\"temperature\\\":%d\\,\\\"humidity\\\":%d}}]}\",0,0\r\n", HUAWEI_MQTT_USERNAME, longitude, latitude, temp, humi);
+	my_printf(&huart3, "AT+MQTTPUB=0,\"smart_helmet/report\",\"{\\\"services\\\":[{\\\"service_id\\\":\\\"BasicData\\\"\\,\\\"properties\\\":{\\\"longitude\\\":%.2f\\,\\\"latitude\\\":%.2f\\,\\\"temperature\\\":%d\\,\\\"humidity\\\":%d}}]}\",0,0\r\n", longitude, latitude, temp, humi);
 	HAL_Delay(50);
 }
