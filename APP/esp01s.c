@@ -1,11 +1,11 @@
 #include "esp01s.h"
 
 /**
- * @brief   ESP8266 初始化函数
+ * @brief   ESP 初始化函数
  */
 void esp_init(void)
 {
-    // 发送 AT+RST 命令，复位 ESP8266 模块
+    // 发送 AT+RST 命令，复位 ESP 模块
     my_printf(&huart3, "AT+RST\r\n");
     HAL_Delay(1000);
     
@@ -31,7 +31,7 @@ void esp_init(void)
 }
 
 /**
- * @brief   ESP8266 数据上报函数1
+ * @brief   ESP 数据上报函数1
  */
 void esp_report1(void)
 {
@@ -41,7 +41,7 @@ void esp_report1(void)
 }
 
 /**
- * @brief   ESP8266 数据上报函数2
+ * @brief   ESP数据上报函数2
  */
 void esp_report2(void)
 {

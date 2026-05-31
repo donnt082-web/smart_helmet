@@ -204,7 +204,7 @@ int main(void)
 
 	
 
-	esp_init(); // ESP8266 初始化
+	esp_init(); // ESP-01S 初始化
 
 	DHT11_Init(); // DHT11 温湿度传感器初始化
 

@@ -15,10 +15,10 @@
 #define HUAWEI_MQTT_PORT        "1883"                                                          // MQTT 端口号
 #define HUAWEI_MQTT_PUBLISH_TOPIC "$oc/devices/685ca22532771f177b45e75f_smart_helmet_1/sys/properties/report" // 上报主题
 
-// ESP8266 模块初始化函数
+// ESP-01S 模块初始化函数
 void esp_init(void);
 
-// ESP8266 数据上报函数
+// ESP-01S 数据上报函数
 void esp_report1(void);
 void esp_report2(void);
 #endif
