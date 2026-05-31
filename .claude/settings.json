@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node -e \"const a=require\\('aedes'\\); console.log\\('typeof:', typeof a, 'keys:', Object.keys\\(a||{}\\).slice\\(0,30\\)\\);\")",
+      "Bash(curl -s http://localhost:3000/health)",
+      "Bash(node -e ' *)",
+      "Bash(curl -s http://localhost:3000/api/data/recent)",
+      "Bash(cd \"/d/360MoveData/Users/86139/Desktop/terminal-system/server\" && ls node_modules | grep -i mqtt)",
+      "Read(//d/d/360MoveData/Users/86139/Desktop/terminal-system/server/**)",
+      "Bash(npm install *)",
+      "Bash(node ../tools/sim_publish.js 127.0.0.1 1883)",
+      "Bash(rm -f \"d:/360MoveData/Users/86139/Desktop/terminal-system/tools/sim_publish.js\" && ls \"d:/360MoveData/Users/86139/Desktop/code\" 2>&1 | head -30)",
+      "Read(//d/360MoveData/Users/86139/Desktop/**)",
+      "Bash(powershell.exe -Command \"\\(New-Object -ComObject WScript.Shell\\).CreateShortcut\\('D:\\\\360MoveData\\\\Users\\\\86139\\\\Desktop\\\\code.lnk'\\).TargetPath\")",
+      "Bash(ls \"/e/code\" 2>&1 | head -40)",
+      "Read(//e/code/**)"
+    ],
+    "additionalDirectories": [
+      "d:\\360MoveData\\Users\\86139\\Desktop\\terminal-system\\server",
+      "d:\\360MoveData\\Users\\86139\\Desktop\\terminal-system\\tools"
+    ]
+  }
+}

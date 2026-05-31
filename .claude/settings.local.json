@@ -1,0 +1,27 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python -c \"data=open\\(r'd:\\\\360MoveData\\\\Users\\\\86139\\\\Desktop\\\\smart_helmet\\\\APP\\\\max30102_app.c','rb'\\).read\\(\\); print\\(len\\(data\\)\\); idx=data.find\\(b'void max30102_task'\\); print\\(idx\\); print\\(repr\\(data[idx:idx+800]\\)\\)\")",
+      "Bash(python)",
+      "Bash(netstat -ano)",
+      "Bash(awk '{print $5}')",
+      "Bash(taskkill //F //PID 45828)",
+      "Bash(node -e ' *)",
+      "Bash(taskkill //F //PID 45856)",
+      "Bash(findstr \"LISTENING\")",
+      "Bash(findstr \":300\")",
+      "Bash(findstr \":1883\")",
+      "Bash(findstr \":3001\")",
+      "Bash(findstr \"ESTABLISHED\")",
+      "Bash(findstr \":3000\")",
+      "Bash(ipconfig)",
+      "Bash(findstr \"IPv4\")",
+      "Bash(netsh advfirewall *)",
+      "Bash(findstr /i \"3001 node\")",
+      "Bash(powershell -Command \"Test-NetConnection -ComputerName 192.168.0.105 -Port 3001 -WarningAction SilentlyContinue | Select-Object TcpTestSucceeded, RemoteAddress, RemotePort\")",
+      "Bash(wmic process *)",
+      "Bash(taskkill /F /PID 52528)",
+      "Bash(cmd //c \"taskkill /F /PID 52528\")"
+    ]
+  }
+}

@@ -1,0 +1,11 @@
+{
+    "files.associations": {
+        "mq2.h": "c",
+        "inv_mpu.h": "c",
+        "bsp_system.h": "c",
+        "stdlib.h": "c",
+        "inv_mpu_dmp_motion_driver.h": "c",
+        "mpu6050.h": "c"
+    },
+    "C_Cpp.errorSquiggles": "disabled"
+}
