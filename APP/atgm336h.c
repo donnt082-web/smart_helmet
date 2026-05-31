@@ -2,19 +2,19 @@
 
 
 
-uint16_t point1 = 0; // ÓÃÓÚ¼ÇÂ¼½ÓÊÕµ½µÄÊý¾Ý³¤¶È
+uint16_t point1 = 0; // ï¿½ï¿½ï¿½Ú¼ï¿½Â¼ï¿½ï¿½ï¿½Õµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý³ï¿½ï¿½ï¿½
 
-float longitude;     // ÓÃÓÚ´æ´¢¾­¶È
+float longitude;     // ï¿½ï¿½ï¿½Ú´æ´¢ï¿½ï¿½ï¿½ï¿½
 
-float latitude;      // ÓÃÓÚ´æ´¢Î³¶È
+float latitude;      // ï¿½ï¿½ï¿½Ú´æ´¢Î³ï¿½ï¿½
 
 
 
-// ¶¨Òå±£´æGPSÊý¾ÝµÄÈ«¾Ö½á¹¹ÌåÊµÀý
+// ï¿½ï¿½ï¿½å±£ï¿½ï¿½GPSï¿½ï¿½ï¿½Ýµï¿½È«ï¿½Ö½á¹¹ï¿½ï¿½Êµï¿½ï¿½
 
 _SaveData Save_Data;
 
-// ¶¨Òå´æ´¢¾­Î³¶ÈÊý¾ÝµÄÈ«¾Ö½á¹¹ÌåÊµÀý
+// ï¿½ï¿½ï¿½ï¿½æ´¢ï¿½ï¿½Î³ï¿½ï¿½ï¿½ï¿½ï¿½Ýµï¿½È«ï¿½Ö½á¹¹ï¿½ï¿½Êµï¿½ï¿½
 
 LatitudeAndLongitude_s g_LatAndLongData =
 
@@ -32,7 +32,7 @@ LatitudeAndLongitude_s g_LatAndLongData =
 
 
 
-// ´®¿Ú½ÓÊÕ»º³åÇø¼°ÁÙÊ±±äÁ¿
+// ï¿½ï¿½ï¿½Ú½ï¿½ï¿½Õ»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½
 
 char USART_RX_BUF[USART_REC_LEN];
 
@@ -40,9 +40,21 @@ uint8_t uart_A_RX_Buff;
 
 
 
+// UART3 æŽ¥æ”¶ç¼“å†²åŒºï¼ˆESP-01S ä¸‹è¡Œå‘½ä»¤ï¼‰
+
+uint16_t uart3_rx_index = 0;
+
+uint32_t uart3_rx_ticks = 0;
+
+uint8_t uart3_rx_buffer[256];
+
+uint8_t uart3_rx_byte;
+
+
+
 /**
 
- * @brief   ³õÊ¼»¯GPSÄ£¿é
+ * @brief   ï¿½ï¿½Ê¼ï¿½ï¿½GPSÄ£ï¿½ï¿½
 
  */
 
@@ -50,9 +62,9 @@ void atgm336h_init(void)
 
 {
 
-    clrStruct(); // Çå³ý½á¹¹ÌåÊý¾Ý
+    clrStruct(); // ï¿½ï¿½ï¿½ï¿½á¹¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
-    // ÆôÓÃ´®¿ÚÖÐ¶Ï£¬×¼±¸½ÓÊÕÊý¾Ý
+    // ï¿½ï¿½ï¿½Ã´ï¿½ï¿½ï¿½ï¿½Ð¶Ï£ï¿½×¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
     HAL_UART_Receive_IT(&huart2, &uart_A_RX_Buff, 1);
 
@@ -62,7 +74,7 @@ void atgm336h_init(void)
 
 /**
 
- * @brief   ´®¿Ú½ÓÊÕÍê³É»Øµ÷º¯Êý
+ * @brief   ï¿½ï¿½ï¿½Ú½ï¿½ï¿½ï¿½ï¿½ï¿½É»Øµï¿½ï¿½ï¿½ï¿½ï¿½
 
  */
 
@@ -70,67 +82,67 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 
 {
 
-    // Èç¹ûÊÇUSART1½ÓÊÕÍê³É
+    // ï¿½ï¿½ï¿½ï¿½ï¿½USART1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
     if (huart->Instance == USART1)
 
     {
 
-        // ¸üÐÂ½ÓÊÕÊ±¼ä´Á²¢Ôö¼Ó½ÓÊÕË÷Òý
+        // ï¿½ï¿½ï¿½Â½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
         uart_rx_ticks = uwTick;
 
         uart_rx_index++;
 
-        // ¼ÌÐø½ÓÊÕÏÂÒ»¸ö×Ö½Ú
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ö½ï¿½
 
         HAL_UART_Receive_IT(&huart1, &uart_rx_buffer[uart_rx_index], 1);
 
     }
 
-    // Èç¹ûÊÇUSART2½ÓÊÕÍê³É
+    // ï¿½ï¿½ï¿½ï¿½ï¿½USART2ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
     else if (huart->Instance == USART2)
 
     {
 
-        // ÅÐ¶ÏÊÇ·ñÊÕµ½Ö¡Í·±êÖ¾×Ö·û'$'
+        // ï¿½Ð¶ï¿½ï¿½Ç·ï¿½ï¿½Õµï¿½Ö¡Í·ï¿½ï¿½Ö¾ï¿½Ö·ï¿½'$'
 
         if (uart_A_RX_Buff == '$')
 
         {
 
-            point1 = 0; // ÖØÖÃÊý¾Ý³¤¶È¼ÆÊýÆ÷
+            point1 = 0; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý³ï¿½ï¿½È¼ï¿½ï¿½ï¿½ï¿½ï¿½
 
         }
 
-        USART_RX_BUF[point1++] = uart_A_RX_Buff; // ´æ´¢½ÓÊÕµ½µÄÊý¾Ý
+        USART_RX_BUF[point1++] = uart_A_RX_Buff; // ï¿½æ´¢ï¿½ï¿½ï¿½Õµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 
 
-        // ¼ì²éÊÇ·ñÊÕµ½ÍêÕûµÄGPRMC/GNRMCÖ¡Êý¾Ý
+        // ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½Õµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½GPRMC/GNRMCÖ¡ï¿½ï¿½ï¿½ï¿½
 
         if (USART_RX_BUF[0] == '$' && USART_RX_BUF[4] == 'M' && USART_RX_BUF[5] == 'C')
 
         {
 
-            // Èç¹û½ÓÊÕµ½»»ÐÐ·û£¬±íÊ¾Ò»Ö¡Êý¾Ý½ÓÊÕÍê³É
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õµï¿½ï¿½ï¿½ï¿½Ð·ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾Ò»Ö¡ï¿½ï¿½ï¿½Ý½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
             if (uart_A_RX_Buff == '\n')
 
             {
 
-                // Çå¿ÕGPS»º³åÇø²¢¸´ÖÆ½ÓÊÕµ½µÄÊý¾Ý
+                // ï¿½ï¿½ï¿½GPSï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ½ï¿½ï¿½Õµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
                 memset(Save_Data.GPS_Buffer, 0, GPS_Buffer_Length);
 
                 memcpy(Save_Data.GPS_Buffer, USART_RX_BUF, point1);
 
-                Save_Data.isGetData = true; // ±ê¼ÇÒÑ¾­»ñÈ¡µ½GPSÊý¾Ý
+                Save_Data.isGetData = true; // ï¿½ï¿½ï¿½ï¿½Ñ¾ï¿½ï¿½ï¿½È¡ï¿½ï¿½GPSï¿½ï¿½ï¿½ï¿½
 
 
 
-                // ÖØÖÃÏà¹Ø±äÁ¿£¬×¼±¸½ÓÊÕÏÂÒ»Ö¡Êý¾Ý
+                // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø±ï¿½ï¿½ï¿½ï¿½ï¿½×¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»Ö¡ï¿½ï¿½ï¿½ï¿½
 
                 point1 = 0;
 
@@ -140,7 +152,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 
         }
 
-        // ·ÀÖ¹»º³åÇøÒç³ö
+        // ï¿½ï¿½Ö¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
         if (point1 >= USART_REC_LEN)
 
@@ -152,9 +164,27 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 
 
 
-        // ¼ÌÐø½ÓÊÕÏÂÒ»¸ö×Ö½Ú
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ö½ï¿½
 
         HAL_UART_Receive_IT(&huart2, &uart_A_RX_Buff, 1);
+
+    }
+
+    // USART3 æŽ¥æ”¶ï¼ˆESP-01S ä¸‹è¡Œå‘½ä»¤ï¼‰
+
+    else if (huart->Instance == USART3)
+
+    {
+
+        uart3_rx_ticks = uwTick;
+
+        uart3_rx_buffer[uart3_rx_index++] = uart3_rx_byte;
+
+        if (uart3_rx_index >= sizeof(uart3_rx_buffer) - 1)
+
+            uart3_rx_index = 0;
+
+        HAL_UART_Receive_IT(&huart3, &uart3_rx_byte, 1);
 
     }
 
@@ -164,7 +194,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 
 /**
 
- * @brief   Çå³ý½á¹¹ÌåÊý¾Ýº¯Êý
+ * @brief   ï¿½ï¿½ï¿½ï¿½á¹¹ï¿½ï¿½ï¿½ï¿½ï¿½Ýºï¿½ï¿½ï¿½
 
  */
 
@@ -172,13 +202,13 @@ void clrStruct(void)
 
 {
 
-    Save_Data.isGetData = false; // ±ê¼ÇÎ´»ñÈ¡µ½GPSÊý¾Ý
+    Save_Data.isGetData = false; // ï¿½ï¿½ï¿½Î´ï¿½ï¿½È¡ï¿½ï¿½GPSï¿½ï¿½ï¿½ï¿½
 
-    Save_Data.isParseData = false; // ±ê¼ÇÊý¾ÝÎ´½âÎö
+    Save_Data.isParseData = false; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î´ï¿½ï¿½ï¿½ï¿½
 
-    Save_Data.isUsefull = false;   // ±ê¼Ç¶¨Î»ÐÅÏ¢ÎÞÐ§
+    Save_Data.isUsefull = false;   // ï¿½ï¿½Ç¶ï¿½Î»ï¿½ï¿½Ï¢ï¿½ï¿½Ð§
 
-    // Çå¿Õ¸÷»º³åÇø
+    // ï¿½ï¿½Õ¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
     memset(Save_Data.GPS_Buffer, 0, GPS_Buffer_Length);
 
@@ -198,7 +228,7 @@ void clrStruct(void)
 
 /**
 
- * @brief   ´íÎóÈÕÖ¾º¯Êý
+ * @brief   ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½ï¿½
 
  */
 
@@ -210,7 +240,7 @@ void errorLog(int num)
 
     {
 
-        // ´òÓ¡´íÎó±àºÅ²¢½øÈëËÀÑ­»·
+        // ï¿½ï¿½Ó¡ï¿½ï¿½ï¿½ï¿½ï¿½Å²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ­ï¿½ï¿½
 
         my_printf(&huart1, "ERROR%d\r\n", num);
 
@@ -220,7 +250,7 @@ void errorLog(int num)
 
 /**
 
- * @brief   ½âÎöGPSÊý¾Ý»º³åÇøº¯Êý
+ * @brief   ï¿½ï¿½ï¿½ï¿½GPSï¿½ï¿½ï¿½Ý»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
  */ 
 
@@ -228,25 +258,25 @@ void parseGpsBuffer(void)
 
 {
 
-    char *subString;      // Ö¸Ïòµ±Ç°½âÎöÎ»ÖÃ
+    char *subString;      // Ö¸ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½
 
-    char *subStringNext;  // Ö¸ÏòÏÂ¸ö½âÎöÎ»ÖÃ
+    char *subStringNext;  // Ö¸ï¿½ï¿½ï¿½Â¸ï¿½ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½
 
-    char i = 0;           // Ñ­»·¼ÆÊýÆ÷
-
-
-
-    uint16_t Number = 0, Integer = 0, Decimal = 0; // ÓÃÓÚ¾­Î³¶ÈÊýÖµ×ª»»
+    char i = 0;           // Ñ­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 
 
-    if (Save_Data.isGetData) // Èç¹ûÒÑ¾­»ñÈ¡µ½GPSÊý¾Ý
+    uint16_t Number = 0, Integer = 0, Decimal = 0; // ï¿½ï¿½ï¿½Ú¾ï¿½Î³ï¿½ï¿½ï¿½ï¿½Öµ×ªï¿½ï¿½
+
+
+
+    if (Save_Data.isGetData) // ï¿½ï¿½ï¿½ï¿½Ñ¾ï¿½ï¿½ï¿½È¡ï¿½ï¿½GPSï¿½ï¿½ï¿½ï¿½
 
     {
 
         Save_Data.isGetData = false;
 
-        // ´òÓ¡µ÷ÊÔÐÅÏ¢
+        // ï¿½ï¿½Ó¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
 
 //        my_printf(&huart1, "**************\r\n");
 
@@ -254,7 +284,7 @@ void parseGpsBuffer(void)
 
 
 
-        for (i = 0; i <= 6; i++) // Ñ­»·½âÎö¸÷×Ö¶Î
+        for (i = 0; i <= 6; i++) // Ñ­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¶ï¿½
 
         {
 
@@ -262,11 +292,11 @@ void parseGpsBuffer(void)
 
             {
 
-                // ²éÕÒµÚÒ»¸ö¶ººÅ£¬·Ö¸î×Ö¶Î
+                // ï¿½ï¿½ï¿½Òµï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½Å£ï¿½ï¿½Ö¸ï¿½ï¿½Ö¶ï¿½
 
                 if ((subString = strstr(Save_Data.GPS_Buffer, ",")) == NULL)
 
-                    errorLog(1); // Èç¹ûÕÒ²»µ½¶ººÅ£¬¼ÇÂ¼´íÎó
+                    errorLog(1); // ï¿½ï¿½ï¿½ï¿½Ò²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å£ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½
 
             }
 
@@ -276,49 +306,49 @@ void parseGpsBuffer(void)
 
                 subString++;
 
-                // ²éÕÒÏÂÒ»¸ö¶ººÅ
+                // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
                 if ((subStringNext = strstr(subString, ",")) != NULL)
 
                 {
 
-                    char usefullBuffer[2]; // ÓÃÓÚ´æ´¢Êý¾ÝÓÐÐ§ÐÔÐÅÏ¢
+                    char usefullBuffer[2]; // ï¿½ï¿½ï¿½Ú´æ´¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð§ï¿½ï¿½ï¿½ï¿½Ï¢
 
                     switch (i)
 
                     {
 
-                        case 1: // ½âÎöÊ±¼ä×Ö¶Î
+                        case 1: // ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½Ö¶ï¿½
 
                             memcpy(Save_Data.UTCTime, subString, subStringNext - subString);
 
                             break;
 
-                        case 2: // ½âÎöÊý¾ÝÓÐÐ§ÐÔ×Ö¶Î
+                        case 2: // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð§ï¿½ï¿½ï¿½Ö¶ï¿½
 
                             memcpy(usefullBuffer, subString, subStringNext - subString);
 
                             break;
 
-                        case 3: // ½âÎöÎ³¶È×Ö¶Î
+                        case 3: // ï¿½ï¿½ï¿½ï¿½Î³ï¿½ï¿½ï¿½Ö¶ï¿½
 
                             memcpy(Save_Data.latitude, subString, subStringNext - subString);
 
                             break;
 
-                        case 4: // ½âÎöÎ³¶È·½Ïò×Ö¶Î
+                        case 4: // ï¿½ï¿½ï¿½ï¿½Î³ï¿½È·ï¿½ï¿½ï¿½ï¿½Ö¶ï¿½
 
                             memcpy(Save_Data.N_S, subString, subStringNext - subString);
 
                             break;
 
-                        case 5: // ½â½âÎö¾­¶È×Ö¶Î
+                        case 5: // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¶ï¿½
 
                             memcpy(Save_Data.longitude, subString, subStringNext - subString);
 
                             break;
 
-                        case 6: // ½âÎö¾­¶È·½Ïò×Ö¶Î
+                        case 6: // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È·ï¿½ï¿½ï¿½ï¿½Ö¶ï¿½
 
                             memcpy(Save_Data.E_W, subString, subStringNext - subString);
 
@@ -330,19 +360,19 @@ void parseGpsBuffer(void)
 
                     }
 
-                    subString = subStringNext; // ¸üÐÂµ±Ç°½âÎöÎ»ÖÃ
+                    subString = subStringNext; // ï¿½ï¿½ï¿½Âµï¿½Ç°ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½
 
-                    Save_Data.isParseData = true; // ±ê¼ÇÊý¾ÝÒÑ½âÎö
+                    Save_Data.isParseData = true; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ½ï¿½ï¿½ï¿½
 
-                    // ÅÐ¶ÏÊý¾ÝÓÐÐ§ÐÔ
+                    // ï¿½Ð¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð§ï¿½ï¿½
 
                     if (usefullBuffer[0] == 'A')
 
-                        Save_Data.isUsefull = true; // Êý¾ÝÓÐÐ§
+                        Save_Data.isUsefull = true; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð§
 
                     else if (usefullBuffer[0] == 'V')
 
-                        Save_Data.isUsefull = false; // Êý¾ÝÎÞÐ§
+                        Save_Data.isUsefull = false; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð§
 
                 }
 
@@ -350,7 +380,7 @@ void parseGpsBuffer(void)
 
                 {
 
-//                    errorLog(2); // Èç¹ûÕÒ²»µ½¶ººÅ£¬¼ÇÂ¼´íÎó
+//                    errorLog(2); // ï¿½ï¿½ï¿½ï¿½Ò²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å£ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½
 
                 }
 
@@ -360,15 +390,15 @@ void parseGpsBuffer(void)
 
 
 
-        if (Save_Data.isParseData) // Èç¹ûÊý¾ÝÒÑ½âÎö
+        if (Save_Data.isParseData) // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ½ï¿½ï¿½ï¿½
 
         {
 
-            if (Save_Data.isUsefull) // Èç¹ûÊý¾ÝÓÐÐ§
+            if (Save_Data.isUsefull) // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð§
 
             {
 
-                // »ñÈ¡Î³¶È·½ÏòºÍ¾­¶È·½Ïò
+                // ï¿½ï¿½È¡Î³ï¿½È·ï¿½ï¿½ï¿½Í¾ï¿½ï¿½È·ï¿½ï¿½ï¿½
 
                 g_LatAndLongData.N_S = Save_Data.N_S[0];
 
@@ -376,7 +406,7 @@ void parseGpsBuffer(void)
 
 
 
-                // ×ª»»Î³¶ÈÊý¾Ý
+                // ×ªï¿½ï¿½Î³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
                 for (uint8_t i = 0; i < 9; i++)
 
@@ -388,7 +418,7 @@ void parseGpsBuffer(void)
 
                         Number *= 10;
 
-                        Number += Save_Data.latitude[i] - '0'; // ÌáÈ¡¶È²¿·Ö
+                        Number += Save_Data.latitude[i] - '0'; // ï¿½ï¿½È¡ï¿½È²ï¿½ï¿½ï¿½
 
                     }
 
@@ -398,7 +428,7 @@ void parseGpsBuffer(void)
 
                         Integer *= 10;
 
-                        Integer += Save_Data.latitude[i] - '0'; // ÌáÈ¡·ÖµÄÕûÊý²¿·Ö
+                        Integer += Save_Data.latitude[i] - '0'; // ï¿½ï¿½È¡ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
                     }
 
@@ -410,13 +440,13 @@ void parseGpsBuffer(void)
 
                         Decimal *= 10;
 
-                        Decimal += Save_Data.latitude[i] - '0'; // ÌáÈ¡·ÖµÄÐ¡Êý²¿·Ö
+                        Decimal += Save_Data.latitude[i] - '0'; // ï¿½ï¿½È¡ï¿½Öµï¿½Ð¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
                     }
 
                 }
 
-                // ×ª»»ÎªÊ®½øÖÆ¶ÈÊý
+                // ×ªï¿½ï¿½ÎªÊ®ï¿½ï¿½ï¿½Æ¶ï¿½ï¿½ï¿½
 
                 g_LatAndLongData.latitude = 1.0 * Number + (1.0 * Integer + 1.0 * Decimal / 10000) / 60;
 
@@ -430,7 +460,7 @@ void parseGpsBuffer(void)
 
 
 
-                // ×ª»»¾­¶ÈÊý¾Ý
+                // ×ªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
                 for (uint8_t i = 0; i < 10; i++)
 
@@ -442,7 +472,7 @@ void parseGpsBuffer(void)
 
                         Number *= 10;
 
-                        Number += Save_Data.longitude[i] - '0'; // ÌáÈ¡¶È²¿·Ö
+                        Number += Save_Data.longitude[i] - '0'; // ï¿½ï¿½È¡ï¿½È²ï¿½ï¿½ï¿½
 
                     }
 
@@ -452,7 +482,7 @@ void parseGpsBuffer(void)
 
                         Integer *= 10;
 
-                        Integer += Save_Data.longitude[i] - '0'; // ÌáÈ¡·ÖµÄÕûÊý²¿·Ö
+                        Integer += Save_Data.longitude[i] - '0'; // ï¿½ï¿½È¡ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
                     }
 
@@ -464,19 +494,19 @@ void parseGpsBuffer(void)
 
                         Decimal *= 10;
 
-                        Decimal += Save_Data.longitude[i] - '0'; // ÌáÈ¡·ÖµÄÐ¡Êý²¿·Ö
+                        Decimal += Save_Data.longitude[i] - '0'; // ï¿½ï¿½È¡ï¿½Öµï¿½Ð¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
                     }
 
                 }
 
-                // ×ª»»ÎªÊ®½øÖÆ¶ÈÊý
+                // ×ªï¿½ï¿½ÎªÊ®ï¿½ï¿½ï¿½Æ¶ï¿½ï¿½ï¿½
 
                 g_LatAndLongData.longitude = 1.0 * Number + (1.0 * Integer + 1.0 * Decimal / 10000) / 60;
 
 
 
-                // ¸üÐÂÈ«¾Ö¾­Î³¶È±äÁ¿
+                // ï¿½ï¿½ï¿½ï¿½È«ï¿½Ö¾ï¿½Î³ï¿½È±ï¿½ï¿½ï¿½
 
                 longitude = g_LatAndLongData.longitude;
 
@@ -484,7 +514,7 @@ void parseGpsBuffer(void)
 
 				
 
-				//½øÐÐÄÏ±±Î³£¬¶«Î÷Î³´¦Àí
+				//ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½Î³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î³ï¿½ï¿½ï¿½ï¿½
 
 				if(g_LatAndLongData.E_W=='W')
 
@@ -506,7 +536,7 @@ void parseGpsBuffer(void)
 
 /**
 
- * @brief   ´òÓ¡GPSÊý¾Ýº¯Êý
+ * @brief   ï¿½ï¿½Ó¡GPSï¿½ï¿½ï¿½Ýºï¿½ï¿½ï¿½
 
  */
 
@@ -514,7 +544,7 @@ void printGpsBuffer(void)
 
 {
 
-    if (Save_Data.isParseData) // Èç¹ûÊý¾ÝÒÑ½âÎö
+    if (Save_Data.isParseData) // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ½ï¿½ï¿½ï¿½
 
     {
 
@@ -522,19 +552,19 @@ void printGpsBuffer(void)
 
 
 
-        // ´òÓ¡UTCÊ±¼ä
+        // ï¿½ï¿½Ó¡UTCÊ±ï¿½ï¿½
 
         my_printf(&huart1, "Save_Data.UTCTime = %s\r\n", Save_Data.UTCTime);
 
 
 
-        if (Save_Data.isUsefull) // Èç¹ûÊý¾ÝÓÐÐ§
+        if (Save_Data.isUsefull) // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð§
 
         {
 
             Save_Data.isUsefull = false;
 
-            // ´òÓ¡Ô­Ê¼¾­Î³¶ÈÊý¾Ý
+            // ï¿½ï¿½Ó¡Ô­Ê¼ï¿½ï¿½Î³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
             my_printf(&huart1, "Save_Data.latitude = %s\r\n", Save_Data.latitude);
 
@@ -546,7 +576,7 @@ void printGpsBuffer(void)
 
 
 
-            // ´òÓ¡×ª»»ºóµÄ¾­Î³¶ÈÊý¾Ý
+            // ï¿½ï¿½Ó¡×ªï¿½ï¿½ï¿½ï¿½Ä¾ï¿½Î³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
             my_printf(&huart1, "latitude: %c,%.4f\r\n", g_LatAndLongData.N_S, g_LatAndLongData.latitude);
 
@@ -558,7 +588,7 @@ void printGpsBuffer(void)
 
         {
 
-            // ÌáÊ¾GPSÊý¾ÝÎÞÐ§
+            // ï¿½ï¿½Ê¾GPSï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð§
 
             my_printf(&huart1, "GPS DATA is not usefull!\r\n");
 
@@ -572,7 +602,7 @@ void printGpsBuffer(void)
 
 /**
 
- * @brief   GPSÄ£¿éÈÎÎñº¯Êý
+ * @brief   GPSÄ£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
  */
 
@@ -580,9 +610,9 @@ void atgm336h_task(void)
 
 {
 
-    parseGpsBuffer(); // ½âÎöGPSÊý¾Ý
+    parseGpsBuffer(); // ï¿½ï¿½ï¿½ï¿½GPSï¿½ï¿½ï¿½ï¿½
 
-//    printGpsBuffer(); // ´òÓ¡GPSÊý¾Ý
+//    printGpsBuffer(); // ï¿½ï¿½Ó¡GPSï¿½ï¿½ï¿½ï¿½
 
 }
 

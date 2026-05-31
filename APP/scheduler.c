@@ -64,6 +64,10 @@ static task_t scheduler_task[] =
 
 	{esp_report2, 1000, 0},
 
+	// 处理服务器下发控制命令（风扇/LED），每 10ms 执行一次
+
+	{esp_process_cmd, 10, 0},
+
 };
 
 /**

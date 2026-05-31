@@ -96,6 +96,18 @@ extern uint8_t uart_rx_dma_buffer[1000];//接收缓存
 
 
 
+//uart3 接收相关（ESP-01S 下行命令）
+
+extern uint16_t uart3_rx_index;
+
+extern uint32_t uart3_rx_ticks;
+
+extern uint8_t uart3_rx_buffer[256];
+
+extern uint8_t uart3_rx_byte;
+
+
+
 extern bool measure_flag;
 
 extern bool density_flag;
