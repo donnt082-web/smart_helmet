@@ -1,0 +1,239 @@
+﻿Diagnose log at 2026-05-31T07:29:56Z
+
+AppPath: C:\Program Files\Git\mingw64\bin\git-credential-manager.exe
+InstallDir: C:\Program Files\Git\mingw64\bin\
+Version: 2.6.1+786ab03440ddc82e807a97c0e540f5247e44cec6
+
+------------
+Diagnostic: Environment
+Skipped: False
+Success: True
+Exception: None
+Log:
+OSType: Windows
+OSVersion: 10.0 (build 26200)
+Reading environment variables... OK
+ Variables:
+_=C:/Program Files/Git/mingw64/bin/git
+ANTHROPIC_AUTH_TOKEN=sk-aY1QZVToy1Wx1ueWiHUctQcWANMpQIb5kisT4GaDxPHbxUCK
+VSCODE_IPC_HOOK=\\.\pipe\fa190f68-1.122.1-main-sock
+PUBLIC=C:\Users\Public
+ALLUSERSPROFILE=C:\ProgramData
+LOGONSERVER=\\DONNY
+EFC_12988_4126798990=1
+WINDIR=C:\WINDOWS
+LOCALAPPDATA=C:\Users\86139\AppData\Local
+ProgramData=C:\ProgramData
+CLASSPATH=.;C:\Program Files\JAVA\lib;C:\Program Files\JAVA\lib\dt.jar;C:\Program Files\JAVA\lib\tools.jar
+CLAUDE_CODE_ENABLE_SDK_FILE_CHECKPOINTING=true
+TMPDIR=C:\Users\86139\AppData\Local\Temp\claude
+PROCESSOR_ARCHITECTURE=x86
+PyCharm=E:\pycharm\PyCharm 2023.2.2\bin;
+PROCESSOR_REVISION=5000
+ProgramW6432=C:\Program Files
+SYSTEMROOT=C:\WINDOWS
+CLAUDE_CODE_EXECPATH=C:\Users\86139\.vscode\extensions\anthropic.claude-code-2.1.158-win32-x64\resources\native-binary\claude.exe
+MSYSTEM=MINGW64
+GIT_EXEC_PATH=C:/Program Files/Git/mingw64/libexec/git-core
+SHELL=C:\Program Files\Git\bin\bash.exe
+TMPPREFIX=C:/Users/86139/AppData/Local/Temp/claude/zsh
+GIT_CONFIG_VALUE_0=explicit
+MKL_SERIAL=YES
+OS=Windows_NT
+CLAUDE_EFFORT=high
+CLAUDE_AGENT_SDK_VERSION=0.3.158
+SHLVL=1
+PATHEXT=.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC;.PY;.PYW
+ACTEL_FOR_ALTIUM_OVERRIDE= 
+LC_CTYPE=C.UTF-8
+VIRTUAL_ENV=E:\Python
+VSCODE_CWD=E:\vscode\Microsoft VS Code
+VSCODE_PID=23816
+IntelliJ IDEA=E:\idea\IntelliJ IDEA 2021.1.3\bin;
+JAVA_HOME=C:\Program Files\JAVA
+CommonProgramW6432=C:\Program Files\Common Files
+MCP_CONNECTION_NONBLOCKING=true
+COMSPEC=C:\WINDOWS\system32\cmd.exe
+USERNAME=86139
+CLAUDE_CODE_TMPDIR=C:/Users/86139/AppData/Local/Temp/claude
+GIT_CONFIG_COUNT=1
+GIT_EDITOR=true
+TERM=xterm-256color
+STM32CubeMX_PATH=E:\CubeMX
+GIT_CONFIG_KEY_0=safe.bareRepository
+PATH=C:/Program Files/Git/mingw64/libexec/git-core;C:\Users\86139\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\local\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\86139\bin;E:\Python\Scripts;C:\Python314\Scripts;C:\Python314;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Common Files\Oracle\Java\java8path;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;E:\Python\Scripts;E:\Python;C:\Users\86139\Desktop\JAVA\bin;C:\Program Files (x86)\Razer Chroma SDK\bin;C:\Program Files\Razer Chroma SDK\bin;C:\Program Files (x86)\Lenovo\PCManager\5.0.20.6062\plugins;C:\Program Files (x86)\Lenovo\PCManager\5.0.20.6062\Security\service;C:\Program Files (x86)\Razer\ChromaBroadcast\bin;C:\Program Files\Razer\ChromaBroadcast\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0;C:\Windows\System32\OpenSSH;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Windows\system32\config\systemprofile\AppData\Local\Microsoft\WindowsApps;C:\Users\86139\AppData\Local\Microsoft\WindowsApps;C:\Program Files (x86)\Lenovo\PCManager\5.0.20.6062;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\Bandizip;C:\Program Files\dotnet;C:\Program Files\JAVA\bin;C:\Program Files\JAVA\jre\bin;C:\Program Files\MySQL\MySQL Server 8.0\bin;C:\Program Files\NVIDIA Corporation\Nsight Compute 2023.3.1;C:\ProgramData\chocolatey\bin;C:\Program Files\Git\cmd;C:\Program Files (x86)\Windows Kits\10\Windows Performance Toolkit;C:\Program Files\NVIDIA Corporation\NVIDIA App\NvDLISR;E:\;C:\Users\86139\AppData\Local\Programs\cursor\resources\app\codeBin;E:\python\Scripts;E:\python;C:\Users\86139\AppData\Local\Microsoft\WindowsApps;E:\pycharm\PyCharm 2023.2.2\bin;C:\Program Files\Java\jdk1.8.0_333\bin;E:\idea\IntelliJ IDEA 2021.1.3\bin;E:\vscode\Microsoft VS Code\bin;C:\Users\86139\AppData\Roaming\npm;C:\Users\86139\AppData\Local\Programs\cursor\resources\app\bin;F:\Windsurf\bin;C:\Users\86139\AppData\Local\Microsoft\WinGet\Packages\BrechtSanders.WinLibs.POSIX.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe\mingw64\bin;C:\Program Files\Git\usr\bin\vendor_perl;C:\Program Files\Git\usr\bin\core_perl
+OneDrive=C:\Users\86139\OneDrive\Documents\OneDrive
+PSModulePath=C:\Program Files\WindowsPowerShell\Modules;C:\WINDOWS\system32\WindowsPowerShell\v1.0\Modules
+COREPACK_ENABLE_AUTO_PIN=0
+CLAUDE_CODE_SESSION_ID=89964ba9-6634-4856-b94e-9fe2d8fcedf9
+ChocolateyInstall=C:\ProgramData\chocolatey
+COPILOT_OTEL_EXPORTER_TYPE=file
+CLAUDE_CODE_ENTRYPOINT=claude-vscode
+ProgramFiles(x86)=C:\Program Files (x86)
+ANTHROPIC_BASE_URL=https://www.vmvia.com
+ALTERA_FOR_ALTIUM_OVERRIDE= 
+STM32_PRG_PATH=D:\STM32CubeProgrammer\bin
+ChocolateyLastPathUpdate=134086406962360006
+VSCODE_HANDLES_UNCAUGHT_ERRORS=true
+PLINK_PROTOCOL=ssh
+KMP_DUPLICATE_LIB_OK=TRUE
+PROCESSOR_LEVEL=25
+EXEPATH=C:\Program Files\Git\bin
+HOMEDRIVE=C:
+OneDriveConsumer=C:\Users\86139\OneDrive\Documents\OneDrive
+PROGRAMFILES=C:\Program Files (x86)
+VSCODE_ESM_ENTRYPOINT=vs/workbench/api/node/extensionHostProcess
+COPILOT_OTEL_ENABLED=true
+USERPROFILE=C:\Users\86139
+VSCODE_CRASH_REPORTER_PROCESS_TYPE=extensionHost
+AI_AGENT=claude-code_2-1-158_agent
+PROCESSOR_IDENTIFIER=AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD
+CommonProgramFiles(x86)=C:\Program Files (x86)\Common Files
+SESSIONNAME=Console
+TMP=C:\Users\86139\AppData\Local\Temp
+COMPUTERNAME=DONNY
+APPLICATION_INSIGHTS_NO_STATSBEAT=true
+DriverData=C:\Windows\System32\Drivers\DriverData
+APPDATA=C:\Users\86139\AppData\Roaming
+USERDOMAIN=DONNY
+NUMBER_OF_PROCESSORS=16
+CHROME_CRASHPAD_PIPE_NAME=\\.\pipe\crashpad_23816_VCHVDETTXUMOJSMD
+SYSTEMDRIVE=C:
+PWD=D:/360MoveData/Users/86139/Desktop/smart_helmet
+USERDOMAIN_ROAMINGPROFILE=DONNY
+COMMONPROGRAMFILES=C:\Program Files (x86)\Common Files
+GIT_TRACE2_PARENT_SID=a24e461f-e189-42fa-9dfa-41c99ded6fe9
+VSCODE_NLS_CONFIG={"userLocale":"zh-cn","osLocale":"zh-cn","resolvedLanguage":"zh-cn","defaultMessagesFile":"E:\\vscode\\Microsoft VS Code\\8761a5560c\\resources\\app\\out\\nls.messages.json","languagePack":{"translationsConfigFile":"C:\\Users\\86139\\AppData\\Roaming\\Code\\clp\\c07b60f4cac9304224ad395cdcff0642.zh-cn\\tcf.json","messagesFile":"C:\\Users\\86139\\AppData\\Roaming\\Code\\clp\\c07b60f4cac9304224ad395cdcff0642.zh-cn\\8761a5560cfd65fdd19ce7e2bd18dab5c0a4d84e\\nls.messages.json","corruptMarkerFile":"C:\\Users\\86139\\AppData\\Roaming\\Code\\clp\\c07b60f4cac9304224ad395cdcff0642.zh-cn\\corrupted.info"},"locale":"zh-cn","availableLanguages":{"*":"zh-cn"},"_languagePackId":"c07b60f4cac9304224ad395cdcff0642.zh-cn","_languagePackSupport":true,"_translationsConfigFile":"C:\\Users\\86139\\AppData\\Roaming\\Code\\clp\\c07b60f4cac9304224ad395cdcff0642.zh-cn\\tcf.json","_cacheRoot":"C:\\Users\\86139\\AppData\\Roaming\\Code\\clp\\c07b60f4cac9304224ad395cdcff0642.zh-cn","_resolvedLanguagePackCoreLocation":"C:\\Users\\86139\\AppData\\Roaming\\Code\\clp\\c07b60f4cac9304224ad395cdcff0642.zh-cn\\8761a5560cfd65fdd19ce7e2bd18dab5c0a4d84e","_corruptedFile":"C:\\Users\\86139\\AppData\\Roaming\\Code\\clp\\c07b60f4cac9304224ad395cdcff0642.zh-cn\\corrupted.info"}
+HOMEPATH=\Users\86139
+VSCODE_L10N_BUNDLE_LOCATION=file:///c%3A/Users/86139/.vscode/extensions/ms-ceintl.vscode-language-pack-zh-hans-1.122.2026052917/translations/extensions/vscode.json-language-features.i18n.json
+HOME=C:\Users\86139
+PROCESSOR_ARCHITEW6432=AMD64
+ELECTRON_RUN_AS_NODE=1
+CLAUDECODE=1
+CLAUDE_CODE_ENABLE_TASKS=0
+TEMP=C:\Users\86139\AppData\Local\Temp
+EFC_12988_1592913036=1
+COPILOT_OTEL_FILE_EXPORTER_PATH=\\.\nul
+VSCODE_CODE_CACHE_PATH=C:\Users\86139\AppData\Roaming\Code\CachedData\8761a5560cfd65fdd19ce7e2bd18dab5c0a4d84e
+NoDefaultCurrentDirectoryInExePath=1
+
+
+------------
+Diagnostic: File system
+Skipped: False
+Success: True
+Exception: None
+Log:
+Temporary directory is 'C:\Users\86139\AppData\Local\Temp\'...
+Checking basic file I/O...
+Writing to temporary file 'C:\Users\86139\AppData\Local\Temp\0ac94b5fba215a3f64207d64'... OK
+Reading from temporary file 'C:\Users\86139\AppData\Local\Temp\0ac94b5fba215a3f64207d64'... OK
+Deleting temporary file 'C:\Users\86139\AppData\Local\Temp\0ac94b5fba215a3f64207d64'... OK
+Testing IFileSystem instance...
+UserHomePath: C:\Users\86139
+UserDataDirectoryPath: C:\Users\86139\.gcm
+GetCurrentDirectory(): D:\360MoveData\Users\86139\Desktop\smart_helmet
+
+------------
+Diagnostic: Networking
+Skipped: False
+Success: True
+Exception: None
+Log:
+Checking networking and HTTP stack...
+Creating HTTP client... OK
+IsNetworkAvailable: True
+Sending HEAD request to http://example.com...Sending HEAD request to https://example.com... OK
+ OK
+Acquiring free TCP port... OK
+Testing local HTTP loopback connections...
+Creating new HTTP listener for http://localhost:55032/... OK
+Waiting for loopback connection... OK
+Writing response... OK
+Waiting for response data... OK
+Loopback connection data OK
+
+------------
+Diagnostic: Git
+Skipped: False
+Success: True
+Exception: None
+Log:
+Getting Git version... OK
+Git version is '2.52.0.windows.1'
+Locating current repository...Git repository at 'D:/360MoveData/Users/86139/Desktop/smart_helmet/.git'
+ OK
+Listing all Git configuration... OK
+Git configuration:
+file:C:/Program Files/Git/etc/gitconfig	diff.astextplain.textconv=astextplain
+file:C:/Program Files/Git/etc/gitconfig	filter.lfs.clean=git-lfs clean -- %f
+file:C:/Program Files/Git/etc/gitconfig	filter.lfs.smudge=git-lfs smudge -- %f
+file:C:/Program Files/Git/etc/gitconfig	filter.lfs.process=git-lfs filter-process
+file:C:/Program Files/Git/etc/gitconfig	filter.lfs.required=true
+file:C:/Program Files/Git/etc/gitconfig	http.sslbackend=schannel
+file:C:/Program Files/Git/etc/gitconfig	core.autocrlf=true
+file:C:/Program Files/Git/etc/gitconfig	core.fscache=true
+file:C:/Program Files/Git/etc/gitconfig	core.symlinks=true
+file:C:/Program Files/Git/etc/gitconfig	pull.rebase=false
+file:C:/Program Files/Git/etc/gitconfig	credential.helper=manager
+file:C:/Program Files/Git/etc/gitconfig	credential.https://dev.azure.com.usehttppath=true
+file:C:/Program Files/Git/etc/gitconfig	init.defaultbranch=master
+file:C:/Users/86139/.gitconfig	user.name=Donnt
+file:C:/Users/86139/.gitconfig	user.email=donnt082@gmail.com
+file:.git/config	core.repositoryformatversion=0
+file:.git/config	core.filemode=false
+file:.git/config	core.bare=false
+file:.git/config	core.logallrefupdates=true
+file:.git/config	core.ignorecase=true
+file:.git/config	remote.origin.url=https://donnt082-web@github.com/donnt082-web/smart_helmet.git
+file:.git/config	remote.origin.fetch=+refs/heads/*:refs/remotes/origin/*
+command line:	safe.barerepository=explicit
+
+
+------------
+Diagnostic: Credential storage
+Skipped: False
+Success: True
+Exception: None
+Log:
+ICredentialStore instance is of type: CredentialStore
+Writing test credential... OK
+Reading test credential... OK
+Deleting test credential... OK
+
+------------
+Diagnostic: Microsoft authentication (AAD/MSA)
+Skipped: False
+Success: True
+Exception: None
+Log:
+Broker is not enabled.
+Flow type is: Auto
+Gathering MSAL token cache data... OK
+CacheDirectory: C:\Users\86139\AppData\Local\.IdentityService
+CacheFileName: msal.cache
+CacheFilePath: C:\Users\86139\AppData\Local\.IdentityService\msal.cache
+Creating cache helper... OK
+Verifying MSAL token cache persistence... OK
+
+------------
+Diagnostic: GitHub API
+Skipped: False
+Success: False
+Exception:
+System.Net.Http.HttpRequestException: 响应状态代码不指示成功: 403 (rate limit exceeded)。
+   在 System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   在 GitHub.GitHubRestApi.<GetMetaInfoAsync>d__5.MoveNext()
+--- 引发异常的上一位置中堆栈跟踪的末尾 ---
+   在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   在 System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   在 GitHub.Diagnostics.GitHubApiDiagnostic.<RunInternalAsync>d__2.MoveNext()
+--- 引发异常的上一位置中堆栈跟踪的末尾 ---
+   在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   在 System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   在 GitCredentialManager.Diagnostics.Diagnostic.<RunAsync>d__6.MoveNext()
+Log:
+Using 'https://github.com/' as API target.
+Querying '/meta' endpoint...
