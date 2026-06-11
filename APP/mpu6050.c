@@ -172,17 +172,17 @@ void MPU_Init(void)
 
     MPU_Write_Byte(MPU_SAMPLE_RATE_REG, 0x07);
 
-    // 设置低通滤波器频率（典型值 5Hz）
+    // 设置低通滤波器（44Hz，能捕获撞击尖峰）
 
-    MPU_Write_Byte(MPU_CFG_REG, 0x06);
+    MPU_Write_Byte(MPU_CFG_REG, 0x03);
 
     // 配置陀螺仪（不自检，量程 2000deg/s）
 
     MPU_Write_Byte(MPU_GYRO_CFG_REG, 0x18);
 
-    // 配置加速度计（不自检，量程 2G，低通滤波 5Hz）
+    // 配置加速度计（不自检，量程 2G）
 
-    MPU_Write_Byte(MPU_ACCEL_CFG_REG, 0x01);
+    MPU_Write_Byte(MPU_ACCEL_CFG_REG, 0x00);
 
 }
 
@@ -322,17 +322,56 @@ void mpu6050_task(void)
 
     GVM = sqrt(pow(gyrox, 2) + pow(gyroy, 2) + pow(gyroz, 2));
 
-    
+    // ── 跌倒检测（自校准重力方向偏离角，不依赖 DMP/FIFO）──────
+    // DMP 的 pitch/roll 依赖 FIFO，一旦读取失败角度会冻结、翻转也不变。
+    // 这里只用加速度原始值（单纯 I2C 读，MPU 在线就有数据）。
+    //
+    // 原理：开机静止 1 秒，记录当前重力方向作为基准 g0（含方向/符号）。
+    //       之后实时重力 g 与 g0 的夹角 = acos(g·g0/|g|)。
+    //       夹角 > 45° → cos < 0.707 → 触发。翻转 180° 夹角=180°，必触发。
+    //       每周期重新判定，恢复原姿态自动清零。
+    //
+    // MPU6050 ±2g → 1g = 16384 LSB
 
-    // 判断是否跌倒（ pitch 或 roll 超过 60 度）
+    #define GRAV_1G   16384.0f
 
-    fall_flag = ((fabs(pitch) > 60) || (fabs(roll) > 60));
+    static float    g0x = 0, g0y = 0, g0z = 0;   // 基准重力方向（已归一化）
+    static uint8_t  calib_cnt = 0;               // 校准采样计数
+    static uint8_t  tilt_cnt  = 0;
 
-    
+    float ax = (float)aacx, ay = (float)aacy, az = (float)aacz;
+    float mag = sqrtf(ax*ax + ay*ay + az*az);
+    if (mag < 1.0f) mag = 1.0f;   // 防除零
 
-    // 打印姿态数据
+    // 开机前 10 次接近 1g 的采样作为基准姿态
+    if (calib_cnt < 10)
+    {
+        if (mag > GRAV_1G * 0.7f && mag < GRAV_1G * 1.3f)
+        {
+            g0x += ax; g0y += ay; g0z += az;
+            calib_cnt++;
+        }
+        return;   // 校准期间不检测
+    }
+    else if (calib_cnt == 10)
+    {
+        float gm = sqrtf(g0x*g0x + g0y*g0y + g0z*g0z);
+        if (gm < 1.0f) gm = 1.0f;
+        g0x /= gm; g0y /= gm; g0z /= gm;   // 归一化
+        calib_cnt = 11;
+    }
 
-//    my_printf(&huart1, "pitch:%0.1f   roll:%0.1f   yaw:%0.1f\r\n", pitch, roll, yaw);
+    // 当前方向与基准的夹角余弦（g0 已归一化）
+    float cosang = (ax*g0x + ay*g0y + az*g0z) / mag;
 
+    if (cosang < 0.707f)        // 夹角 > 45°
+    {
+        if (++tilt_cnt >= 2)    // 持续 200ms 确认
+            fall_flag = 1;
+    }
+    else
+    {
+        tilt_cnt = 0;
+        fall_flag = 0;          // 恢复姿态自动清零
+    }
 }
-

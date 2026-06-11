@@ -10,7 +10,7 @@
 // TCP 服务器配置（PC 上 terminal-system 后端监听 3001）
 // 注意：TCP_SERVER_IP 要填运行服务器那台电脑在 admin 热点下的局域网 IP，
 //       演示前用 ipconfig 查无线网卡 IPv4 地址填到这里。
-#define TCP_SERVER_IP           "10.248.214.178"
+#define TCP_SERVER_IP           "10.239.198.178"
 #define TCP_SERVER_PORT         "3001"
 
 // 固定经纬度（黑龙江科技大学）

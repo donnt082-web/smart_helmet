@@ -3,66 +3,43 @@
 
 #include "bsp_system.h"
 
-// ĞÄÂÊ²¹³¥Öµ£¬Ã¿´Î²¹³¥¹Ì¶¨µÄĞÄÂÊÖµ
-#define HEART_RATE_COMPENSATION 10
-// »¬¶¯´°¿Ú´óĞ¡
-#define WINDOW_SIZE 20
-// µÍÍ¨ÂË²¨Æ÷µÄÂË²¨ÏµÊı
-#define ALPHA 0.05     
-
-// Êı¾İ»º´æ³¤¶È
+// æ•°æ®ç¼“å­˜é•¿åº¦ï¼ˆ100Hz é‡‡æ · Ã— 5 ç§’ = 500 æ ·æœ¬ï¼Œä¸ Maxim ç®—æ³•è¦æ±‚ä¸€è‡´ï¼‰
 #define BUFFER_LENGTH 500
 
-// MAX30102 Êı¾İ½á¹¹£¬ÓÃÓÚ´æ´¢´«¸ĞÆ÷Êı¾İºÍÏà¹Ø²ÎÊı
+// MAX30102 æ•°æ®ç»“æ„ï¼šå­˜å‚¨é‡‡é›†æ•°æ®å’Œè®¡ç®—ç»“æœ
 typedef struct
 {
-  // ºìÍâLEDÊı¾İ£¨ÓÃÓÚÑªÑõ¼ÆËã£©
+  // çº¢å¤– LED æ•°æ®ï¼ˆå¿ƒç‡è®¡ç®—ç”¨ï¼‰
   uint32_t ir_buffer[BUFFER_LENGTH];
-  // ºìÉ«LEDÊı¾İ£¨ÓÃÓÚĞÄÂÊ¼ÆËã£©
+  // çº¢å…‰ LED æ•°æ®ï¼ˆè¡€æ°§è®¡ç®—ç”¨ï¼‰
   uint32_t red_buffer[BUFFER_LENGTH];
-  // ÑªÑõ±¥ºÍ¶È
+  // è¡€æ°§é¥±å’Œåº¦
   int32_t spO2;
-  // ÑªÑõÓĞĞ§ĞÔÖ¸Ê¾
+  // è¡€æ°§æœ‰æ•ˆæ€§æŒ‡ç¤º
   int8_t spO2_valid;
-  // ĞÄÂÊ
+  // å¿ƒç‡
   int32_t heart_rate;
-  // ĞÄÂÊÓĞĞ§ĞÔÖ¸Ê¾
+  // å¿ƒç‡æœ‰æ•ˆæ€§æŒ‡ç¤º
   int8_t heart_rate_valid;
-  // ĞÅºÅ×îĞ¡Öµ
+  // ä¿¡å·æœ€å°å€¼
   int32_t min_value;
-  // ĞÅºÅ×î´óÖµ
+  // ä¿¡å·æœ€å¤§å€¼
   int32_t max_value;
-  // ÉÏÒ»Êı¾İµã
+  // ä¸Šä¸€æ•°æ®ç‚¹
   int32_t prev_data;
-  // ĞÅºÅÁÁ¶È£¨ÓÃÓÚĞÄÂÊ¼ÆËã£©
+  // ä¿¡å·äº®åº¦
   int32_t brightness;
-  // Êı¾İ»º³åÇø³¤¶È
+  // æ•°æ®ç¼“å†²åŒºé•¿åº¦
   uint32_t buffer_length;
 } MAX30102_Data;
 
-// »¬¶¯Æ½¾ùÂË²¨º¯Êı
-int SmoothData(int new_value, int *buffer, int *index);
-
-// µÍÍ¨ÂË²¨º¯Êı
-int LowPassFilter(int new_value, int previous_filtered_value);
-
-// ¶ÁÈ¡MAX30102´«¸ĞÆ÷Êı¾İ£¬²¢½øĞĞĞÄÂÊ²¹³¥
-void MAX30102_Read_Data(void);
-
-// ¼ÆËãĞÄÂÊºÍÑªÑõÖµ
-void Calculate_Heart_Rate_and_SpO2(void);
-
-// ¸üĞÂĞÅºÅµÄ×îĞ¡ÖµºÍ×î´óÖµ£¬²¢Ó¦ÓÃÂË²¨
-void Update_Signal_Min_Max(void);
-
-// Êı¾İ´¦ÀíÓëÏÔÊ¾º¯Êı£¬´¦ÀíĞÄÂÊºÍÑªÑõÊı¾İ²¢½«Æä´òÓ¡³öÀ´
-void Process_And_Display_Data(void);
-
-// MAX30102 ÈÎÎñº¯Êı£¬¸ºÔğ¶ÁÈ¡ºÍ´¦Àí´«¸ĞÆ÷Êı¾İ
+// MAX30102 ä»»åŠ¡ï¼šéé˜»å¡æŒç»­æµ‹é‡å¿ƒç‡/è¡€æ°§
 void max30102_task(void);
 
-// ³õÊ¼»¯Êı¾İ½á¹¹
+// æ•°æ®ç»“æ„ï¼ˆä¾›å¤–éƒ¨å¼•ç”¨ï¼‰
 extern MAX30102_Data max30102_data;
 
-#endif
+// è°ƒè¯•ç”¨ï¼šæœ€è¿‘ä¸€æ¬¡é‡‡é›†çš„ IR ç›´æµå‡å€¼ï¼ˆä¸ŠæŠ¥ç»™æœåŠ¡ç«¯çœ‹ï¼Œç”¨äºè°ƒé˜ˆå€¼ï¼‰
+extern uint32_t dbg_ir_mean;
 
+#endif

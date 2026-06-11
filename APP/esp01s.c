@@ -1,28 +1,48 @@
 #include "esp01s.h"
 
+/* ── 初始化状态标志 ───────────────────────────────────────── */
+static uint8_t esp_ready = 0;   /* 1=初始化成功，可以发送数据 */
+
+
 /**
- * @brief   ESP-01S 初始化（WiFi + TCP 非透传）
+ * @brief   ESP-01S 初始化（恢复原版时序 + 调试输出）
  */
 void esp_init(void)
 {
+    esp_ready = 0;
+
+    my_printf(&huart1, "[ESP] init start\r\n");
+
+    /* 1. 复位模块 */
     my_printf(&huart3, "AT+RST\r\n");
     HAL_Delay(3000);
 
+    /* 2. 关闭回显 */
     my_printf(&huart3, "ATE0\r\n");
     HAL_Delay(500);
 
+    /* 3. Station 模式 */
     my_printf(&huart3, "AT+CWMODE=1\r\n");
     HAL_Delay(2000);
 
+    /* 4. 连接 WiFi */
+    my_printf(&huart1, "[ESP] WiFi: %s ...\r\n", WIFI_SSID);
     my_printf(&huart3, "AT+CWJAP=\"%s\",\"%s\"\r\n", WIFI_SSID, WIFI_PWD);
     HAL_Delay(8000);
 
-    my_printf(&huart3, "AT+CIPSTART=\"TCP\",\"%s\",%s\r\n", TCP_SERVER_IP, TCP_SERVER_PORT);
+    /* 5. 连接 TCP 服务器 */
+    my_printf(&huart1, "[ESP] TCP %s:%s ...\r\n", TCP_SERVER_IP, TCP_SERVER_PORT);
+    my_printf(&huart3, "AT+CIPSTART=\"TCP\",\"%s\",%s\r\n",
+              TCP_SERVER_IP, TCP_SERVER_PORT);
     HAL_Delay(3000);
 
-    /* 启动 USART3 RX 中断（接收 ESP-01S 透传过来的下行命令）*/
+    /* 6. 启动 USART3 RX 中断（下行命令 + 断线检测）*/
     HAL_UART_Receive_IT(&huart3, &uart3_rx_byte, 1);
+
+    esp_ready = 1;
+    my_printf(&huart1, "[ESP] init done\r\n");
 }
+
 
 static char send_buf[256];
 
@@ -32,15 +52,34 @@ static volatile uint8_t tcp_dead = 0;
 /* 重连 TCP（不重启 WiFi，省时间）*/
 static void esp_reconnect_tcp(void)
 {
+    my_printf(&huart1, "[ESP] TCP dead, reconnect...\r\n");
+
+    /* 清缓冲区，避免旧数据干扰检查 */
+    uart3_rx_index = 0;
+    memset(uart3_rx_buffer, 0, sizeof(uart3_rx_buffer));
+
     my_printf(&huart3, "AT+CIPCLOSE\r\n");
     HAL_Delay(500);
+
     my_printf(&huart3, "AT+CIPSTART=\"TCP\",\"%s\",%s\r\n",
               TCP_SERVER_IP, TCP_SERVER_PORT);
-    HAL_Delay(2500);
-    tcp_dead = 0;
-    /* 清掉重连过程中累积的回显，避免误判 */
-    memset(uart3_rx_buffer, 0, sizeof(uart3_rx_buffer));
+    HAL_Delay(3000);
+
+    /* 检查应答：有 OK/ALREADY 才算成功 */
+    if (strstr((char *)uart3_rx_buffer, "OK")
+     || strstr((char *)uart3_rx_buffer, "ALREADY"))
+    {
+        tcp_dead = 0;
+        my_printf(&huart1, "[ESP] reconnect ok\r\n");
+    }
+    else
+    {
+        my_printf(&huart1, "[ESP] reconnect fail, retry later\r\n");
+    }
+
+    /* 清理缓冲区，避免误判 */
     uart3_rx_index = 0;
+    memset(uart3_rx_buffer, 0, sizeof(uart3_rx_buffer));
 }
 
 /**
@@ -48,10 +87,12 @@ static void esp_reconnect_tcp(void)
  */
 static void esp_tcp_send(const char *json)
 {
+    if (!esp_ready)
+        return;
     if (tcp_dead)
     {
         esp_reconnect_tcp();
-        if (tcp_dead) return;   /* 重连失败这次就别发 */
+        if (tcp_dead) return;
     }
     uint16_t len = strlen(json);
     my_printf(&huart3, "AT+CIPSEND=%d\r\n", len);
@@ -62,30 +103,13 @@ static void esp_tcp_send(const char *json)
 
 /**
  * @brief   上报 1：血氧、心率、气体、跌倒、撞击
- *          dis_spo2/dis_hr 为 0 时（用户未真实测量）输出 96~98 / 73~78 微抖动占位
  */
 void esp_report1(void)
 {
-    uint8_t spo2, hr;
-    if (dis_spo2)
-    {
-        spo2 = dis_spo2;
-    }
-    else
-    {
-        spo2 = 96 + (HAL_GetTick() / 1000) % 3;     /* 96~98 */
-    }
-    if (dis_hr)
-    {
-        hr = dis_hr;
-    }
-    else
-    {
-        hr = 73 + (HAL_GetTick() / 700) % 6;        /* 73~78 */
-    }
+    /* 直接上报真实测量值：未测到手指时 dis_spo2/dis_hr 为 0 */
     sprintf(send_buf,
         "{\"spO2\":%d,\"heart_rate\":%d,\"density\":%.2f,\"fall_flag\":%d,\"collision_flag\":%d}\n",
-        spo2, hr, ppm, fall_flag, collision_flag);
+        dis_spo2, dis_hr, ppm, fall_flag, collision_flag);
     esp_tcp_send(send_buf);
 }
 
